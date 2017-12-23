@@ -3,8 +3,19 @@ body {
   margin: 0;
 }
 
-.gv-hide { display: none; }
+* { outline: none; }
 
+.gv-hide { display: none; }
+.music-note {
+  position: fixed;
+  width: 8%;
+  left: 150px;
+  top: 100px;
+}
+
+#quaver {
+
+}
 #modal-1:not(:target) { display: none; }
 #kdo { display: none; }
 
@@ -20,6 +31,9 @@ body {
   width: 0;
   transition: width 0.2s;
   background-color: red;
+  position: fixed;
+  top: 0;
+  z-index: 100;
 }
 
 .svg-wrapper{
@@ -103,6 +117,7 @@ body {
   width: 7%;
   bottom: -20px;
   left: 50%;
+  z-index: 1;
 }
 
 #train {
@@ -138,6 +153,7 @@ bottom: -80px;
   right: 23%;
   bottom: 300px;
   max-width: 100px;
+  z-index: 2;
 }
 
 #fireplace {

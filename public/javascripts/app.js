@@ -39,15 +39,10 @@ var Song = function () {
   }, {
     key: "trigger",
     value: function trigger(soundID) {
+      displayMusic();
       if ("number" == typeof soundID) soundID = this.ids[soundID];
 
-      backgroundPlayer.volume = 0;
-      var samplePlayer = createjs.Sound.play(soundID);
-      samplePlayer.on("complete", function () {
-        setTimeout(function () {
-          backgroundPlayer.volume = 0.05;
-        });
-      }, 500);
+      Song.playSound(soundID);
 
       if (this.complete) return;
       var i = this.ids.indexOf(soundID);
@@ -66,6 +61,19 @@ var Song = function () {
       document.getElementById("progress").style.width = factor / this.length * 100 + "%";
       console.log("after", i, this.last);
       if (this.length - 1 == this.last) this.onSuccess(samplePlayer);
+    }
+  }], [{
+    key: "playSound",
+    value: function playSound(soundID) {
+      var interrupt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      if (interrupt) backgroundPlayer.volume = 0;
+      var samplePlayer = createjs.Sound.play(soundID);
+      samplePlayer.on("complete", function () {
+        setTimeout(function () {
+          backgroundPlayer.volume = 0.05;
+        });
+      }, 500);
     }
   }]);
 
@@ -88,15 +96,30 @@ document.getElementById("reset").addEventListener("click", function () {
 });
 var jingleBells = "jingleBells";
 var basePath = "./sounds/";
-createjs.Sound.on("fileload", function () {
-  console.log("fileload");
-  backgroundPlayer = createjs.Sound.play(jingleBells);
-  // https://createjs.com/docs/soundjs/classes/AbstractSoundInstance.html
-  backgroundPlayer.volume = backgroundPlayer.volume * 0.05;
-  backgroundPlayer.loop = -1; // infinitely
+createjs.Sound.on("fileload", function (event) {
+  // A sound has been preloaded.
+  console.log("Preloaded:", event.id, event.src);
+  if (event.src.includes("jingle")) {
+    backgroundPlayer = createjs.Sound.play(jingleBells);
+    // https://createjs.com/docs/soundjs/classes/AbstractSoundInstance.html
+    backgroundPlayer.volume = backgroundPlayer.volume * 0.05;
+    backgroundPlayer.loop = -1; // infinitely
+    backgroundPlayer.on("complete", function () {
+      console.log("main song complete");
+    });
+    backgroundPlayer.on("loop", function () {
+      console.log("main song loop");
+    });
+    backgroundPlayer.on("failed", function () {
+      console.log("main song failed");
+    });
+    console.log(backgroundPlayer);
+  }
 }); // add an event listener for when load is completed
 var loadSound = function loadSound() {
-  createjs.Sound.registerSound(basePath + jingleBells + ".mp3", /* id */jingleBells);
+  [jingleBells, "ho_ho_ho", "merry_christmas", "jolly_laugh"].forEach(function (id) {
+    return createjs.Sound.registerSound(basePath + id + ".mp3", /* id */id);
+  });
   // @see https://createjs.com/docs/soundjs/classes/Sound.html#method_registerSounds
   createjs.Sound.registerSounds(songs.soundIDs().map(function (id) {
     return { src: id + ".wav", id: id };
@@ -106,6 +129,7 @@ document.body.onload = loadSound;
 
 // https://github.com/adobe-webplatform/Snap.svg/issues/420
 var imgBasePath = "./images/svg/";
+var body = Snap("body");
 var wrapper = Snap("#svg .svg");
 var wrapperBack = Snap("#svg-background .svg");
 var wrapperFore = Snap("#svg-foreground .svg");
@@ -144,19 +168,6 @@ var register = function register() {
     var c = wrapper.select("#" + id);
     // console.log((x+r)*4, (y+r)*4)
     innerCircle.click(function () {
-      wrapper.append(objects["quaver"]);
-      var q = wrapper.select("#quaver");
-      console.log(q, objects["quaver"]);
-      q.removeClass("gv-hide");
-      q.animate({
-        transform: "t100,100s1,1,0,0"
-      }, 1000, mina.linear, function () {
-        q.addClass("gv-hide");
-        q.attr({
-          transform: "t0,0s1,1,0,0"
-        });
-        // q.remove();
-      });
       songs["ppn"].trigger(i);
       var halo = function halo() {
         c.attr({ opacity: 0.5 });
@@ -164,7 +175,7 @@ var register = function register() {
           opacity: 0,
           transform: "t-" + x * 0.5 + ",-" + y * 0.5 + "s1.5,1.5,0,0"
         }, 500, mina.linear, function () {
-          c.attr({ transform: "t0,0s1,1,0,0", opacity: 1 });
+          c.attr({ transform: "t0,0s1,1,0,0" });
         });
       };
       halo();
@@ -173,8 +184,28 @@ var register = function register() {
   });
 };
 
-loadSVG("quaver");
-loadSVG("music-note");
+loadSVG("quaver", null, function (elt) {/*elt.addClass("music-note");*/});
+loadSVG("music-note", null, function (elt) {/*elt.addClass("music-note");*/});
+function displayMusic() {
+  body.append(objects["quaver"]);
+  body.append(objects["music-note"]);
+  var q = Math.random() > 0.5 ? body.select("#quaver") : body.select("#music-note");
+  q.removeClass("gv-hide");
+  // const tx = (Math.random()*50+150)*(Math.random() > 0.5 ? 1 : -1);
+  // const ty = (Math.random()*50+150)*(Math.random() > 0.5 ? 1 : -1);
+  var tx = -80;
+  var ty = -80;
+  q.animate({
+    transform: "t" + tx + "," + ty + "s0,0,0,0"
+  }, 1000, mina.linear, function () {
+    q.addClass("gv-hide");
+    q.attr({
+      transform: "t0,0s1,1,0,0"
+    });
+    // q.remove();
+  });
+}
+
 loadSVG("christmas-tree", wrapper, register);
 loadSVG("star", wrapper, function (elt) {
   elt.addClass("pointer");
@@ -224,7 +255,7 @@ loadSVG("snow-globe", wrapperBack, function (elt, _id) {
   var haloSvg = objects["snow-globe"].select("#" + id);
   // console.log((x+r)*4, (y+r)*4)
   objects["snow-globe"].click(function () {
-    // playSound(soundIDs[i])
+    Song.playSound("jolly_laugh", false);
     var halo = function halo() {
       haloSvg.attr({ opacity: 0.5 });
       haloSvg.animate({
@@ -250,7 +281,9 @@ loadSVG("sock", wrapperBack, function (elt) {
 loadSVG("candy", wrapperBack, function (elt) {
   elt.addClass("pointer");
   shadowOnOver(elt);
-  // elt.click(function(){ songs["noel"].trigger(3) })
+  elt.click(function () {
+    Song.playSound("merry_christmas", false);
+  });
 });
 loadSVG("gingerbread", wrapperBack, function (elt) {
   elt.addClass("pointer");
@@ -262,5 +295,8 @@ loadSVG("gingerbread", wrapperBack, function (elt) {
 loadSVG("gift-bag", wrapper, function (elt) {
   elt.addClass("pointer");
   shadowOnOver(elt);
+  elt.click(function () {
+    Song.playSound("ho_ho_ho", false);
+  });
 });
 loadSVG("gift-1", wrapper);
