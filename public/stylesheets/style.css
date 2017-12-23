@@ -1,0 +1,230 @@
+body {
+  overflow: hidden;
+  margin: 0;
+}
+
+.gv-hide { display: none; }
+
+#modal-1:not(:target) { display: none; }
+#kdo { display: none; }
+
+#reset {
+  position: fixed;
+  top: 20px;
+  z-index: 100;
+  right: 20px;
+}
+
+#progress {
+  height: 5px;
+  width: 0;
+  transition: width 0.2s;
+  background-color: red;
+}
+
+.svg-wrapper{
+  width: 100%;
+  position: absolute;
+}
+.svg{
+  width: 100%;
+  position: relative;
+  height: 100%;
+}
+
+#floor{
+  height: 1000px;
+  position: absolute;
+  width: 100%;
+  background-color: #9c8b89;
+}
+
+#svg-background {
+  width: 100%;
+  height: 500px;
+  background-color: beige;
+}
+#svg {
+  top: 200px;
+  width: 100%;
+  height: 500px;
+}
+#svg-foreground {
+  width: 100%;
+  height: 500px;
+}
+
+.svg svg { position: absolute; width: 10%; }
+
+#candy {
+  width: 8%;
+  top: 20%;
+  left: 30%;
+  z-index: 2;
+}
+
+#gingerbread {
+  width: 8%;
+  bottom: 120px;
+  left: 20%;
+  z-index: 2;
+}
+
+#snow-globe{
+  right: calc(15% + 25px);
+  bottom: 250px;
+  width: 5%;
+  z-index: 2;
+}
+
+#sock {
+  right: 50px;
+  bottom: 100px;
+  z-index: 2;
+}
+
+#sled {
+  bottom: -70px;
+  width: 25%;
+  left: 100px;
+}
+
+#christmas-tree {
+  display: block;
+  margin: auto;
+  width: 45%;
+  bottom: 0;
+  left: 30%;
+  right: 30%;
+  max-width: 600px;
+}
+
+#christmas-card {
+  width: 7%;
+  bottom: -20px;
+  left: 50%;
+}
+
+#train {
+width: 8%;
+left: 40%;
+bottom: -80px;
+}
+
+#star {
+  width: 7%;
+  left: 49%;
+  z-index: 1;
+  bottom: 100%;
+  max-width: 100px;
+}
+
+#gift-bag {
+  width: 15%;
+  right: 18%;
+  bottom: 0;
+  max-width: 200px;
+}
+
+#gift-1 {
+  width: 15%;
+  left: 25%;
+  bottom: 0;
+  max-width: 200px;
+}
+
+#wreath {
+  width: 8%;
+  right: 23%;
+  bottom: 300px;
+  max-width: 100px;
+}
+
+#fireplace {
+  right: 15%;
+  bottom: -20px;
+  width: 25%;
+  max-width: 300px;
+}
+
+@media screen and (max-width: 1024px) {
+  #snow-globe { bottom: 215px; }
+  #gingerbread { bottom: 75px; left: calc(20% + 50px); }
+  #candy { top: 50%; }
+}
+
+@media screen and (max-width: 768px) {
+  #snow-globe { bottom: 150px; }
+  #gingerbread { bottom: 30px; left: calc(20% + 50px); }
+  #candy { top: 60%; }
+  #sock { bottom: 60px; }
+  #wreath { bottom: 200px; }
+}
+
+@media screen and (min-width: 1430px) {
+  /*#star {
+    left: 47%;
+    bottom: 380px;
+  }*/
+}
+
+.pointer { cursor: pointer;}
+
+.face .eye{
+	-webkit-transition: -webkit-transform .2s;
+	-webkit-transform: scale(1, 0);
+	-moz-transition: -webkit-transform .2s;
+	-moz-transform: scale(1, 0);
+}
+#fireplace .face .eye.right{
+	-webkit-transform-origin: 0 120px;
+	-moz-transform-origin: 0 120px;
+}
+
+#fireplace .face .eye.left{
+	-webkit-transform-origin: 0 120px;
+	-moz-transform-origin: 0 120px;
+}
+#gift-bag .face .eye.right{
+	-webkit-transform-origin: 0 220px;
+	-moz-transform-origin: 0 220px;
+}
+#gift-bag .face .eye.left{
+	-webkit-transform-origin: 0 220px;
+	-moz-transform-origin: 0 220px;
+}
+
+@-webkit-keyframes blink{
+	0% {
+		-webkit-transform: scale(1, 0);
+	}
+	10% {
+		-webkit-transform: scale(1, 1);
+	}
+	90% {
+		-webkit-transform: scale(1, 1);
+	}
+	100% {
+		-webkit-transform: scale(1, 0);
+	}
+}
+
+@-moz-keyframes blink{
+	0% {
+		-moz-transform: scale(1, 0);
+	}
+	10% {
+		-moz-transform: scale(1, 1);
+	}
+	90% {
+		-moz-transform: scale(1, 1);
+	}
+	100% {
+		-moz-transform: scale(1, 0);
+	}
+}
+
+.face.animating .eye{
+	-webkit-animation: blink 5s infinite;
+	-moz-animation: blink 5s infinite;
+}
