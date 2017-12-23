@@ -1,31 +1,80 @@
+// $("h1").lettering();
+
 //https://stackoverflow.com/questions/4617638/detect-ipad-users-using-jquery
 const isIpad = navigator.userAgent.match(/iPad/i) != null;
+const target = location.hash;
+console.log("target=",target)
+const inputs = document.getElementsByTagName("input")
+Array.prototype.forEach.call(inputs, (inp)=>{
+  inp.addEventListener("input", ()=>{
+    console.log("change", inp.value)
+    const code = Array.prototype.reduce.call(inputs, (a,b)=>a+b.value, "");
+    console.log("code", code)
+    const targetCode = target.includes("lulu")
+    ? "5P8C9TJC"
+    : target.includes("marianne")
+    ? "HOHOHOHO"
+    : /* agnes */"HISTOIRE";
+    if (code.toLowerCase() == targetCode.toLowerCase())
+    {
+      document.getElementById("overlay").className += " out";
+    }
+  })
+})
 
-var backgroundPlayer;
+// document.getElementById("entrer").addEventListener("click", ()=>{
+//   console.log("entrer")
+//   document.getElementById("overlay").className += " out";
+// })
+
+var backgroundPlayer = undefined, assetsLoaded = false, assetsCount = /* svg */16+/* sounds */13, assetsCounter = 0;
+const newAssetLoaded = ()=>{
+  return assetsLoaded = (++assetsCounter == assetsCount);
+}
 class Song {
-  constructor(chain){
+  constructor(chain, kdo){
     this.length = chain.length;
     this.complete = false;
     this.ids = chain;
     this.last = undefined;
+    this.kdo = kdo;
   }
   onSuccess(samplePlayer){
     this.complete = true;
     console.log("COMPLETE")
-    // function(){ window.open("http://localhost:3000/cadeau", "_self") }
-    samplePlayer.on("complete", function(){ document.getElementById("kdo").click() })
+
+    // samplePlayer.on("complete", function(){
+    //   document.getElementById("kdo").click()
+    // })
+    this.kdo.node.style.zIndex = 99;
+    if(target.includes("lulu")){
+      this.kdo.animate({
+        transform: "t0,-400s25,25,0,0"
+      }, 5000);
+    }
+    if(target.includes("marianne")){
+      this.kdo.animate({
+        transform: "t-250,-500s25,25,0,0"
+      }, 5000);
+    }
+    if(target.includes("agnes")){
+      this.kdo.animate({
+        transform: "t800,-1300s25,25,0,0"
+      }, 5000);
+    }
   }
   reset(){
     this.complete = false;
     this.last = undefined;
     document.getElementById("progress").style.width = 0
+    this.kdo && this.kdo.attr({transform: "t0,0s1,1,0,0"})
   }
   trigger(soundID){
     displayMusic();
     if("number" == typeof soundID)
       soundID = this.ids[soundID]
 
-    Song.playSound(soundID)
+    var samplePlayer = Song.playSound(soundID)
 
     if(this.complete) return
     const i = this.ids.indexOf(soundID)
@@ -48,29 +97,38 @@ class Song {
       this.onSuccess(samplePlayer)
   }
   static playSound(soundID, interrupt=true){
+    if(!backgroundPlayer) return;
     if(interrupt) backgroundPlayer.volume = 0
     const samplePlayer = createjs.Sound.play(soundID);
     samplePlayer.on("complete", ()=>{
       setTimeout(()=>{ backgroundPlayer.volume=0.05; })
     }, 500);
+    return samplePlayer;
   }
 }
 
 const songs = {
   "ppn": new Song(["ppn_final_0","ppn_final_1","ppn_final_2","ppn_final_3","ppn_final_4"]),
   "noel": new Song(["noel_0","noel_1","noel_2","noel_3"]),
+  "santons": new Song(["pasto_0", "pasto_1", "pasto_2"]),
   soundIDs(){
-    return this.noel.ids.concat(this.ppn.ids)
+    return [...this.noel.ids, ...this.ppn.ids, ...this.santons.ids];
   },
   reset(){
     this.noel.reset();
     this.ppn.reset();
+    this.santons.reset();
+  },
+  kdo(elt){
+    console.log("kdo", elt)
+    this.noel.kdo = this.ppn.kdo = this.santons.kdo = elt;
   }
 }
 document.getElementById("reset").addEventListener("click", function(){ songs.reset() })
 const jingleBells = "jingle_bells";
 const basePath = "./sounds/"
 createjs.Sound.on("fileload", function(event){
+  newAssetLoaded();
   // A sound has been preloaded.
   console.log("Preloaded:", event.id, event.src);
   if(event.src.includes("jingle")){
@@ -108,6 +166,7 @@ document.body.onload = loadSound
       wp && wp.append(fragment);
       objects[id] = wp ? wp.select('#'+id) : fragment;
       cb && cb(objects[id], id);
+      newAssetLoaded();
     });
   };
 
@@ -193,8 +252,30 @@ document.body.onload = loadSound
       })
     })
   })
-  loadSVG("train", wrapper)
-  loadSVG("christmas-card", wrapper)
+
+  loadSVG("angel", wrapper, (elt)=>{
+    elt.addClass("pointer")
+    shadowOnOver(elt)
+    elt.click(function(){ songs["santons"].trigger(0) })
+  })
+  loadSVG("drum", wrapper, (elt)=>{
+    elt.addClass("pointer")
+    shadowOnOver(elt)
+    elt.click(function(){ songs["santons"].trigger(2) })
+  })
+  loadSVG("trumpet", wrapper, (elt)=>{
+    elt.addClass("pointer")
+    shadowOnOver(elt)
+    elt.click(function(){ songs["santons"].trigger(1) })
+  })
+  loadSVG("train", wrapper, (elt)=>{
+    elt.addClass("pointer")
+    shadowOnOver(elt)
+    elt.click(function(){ Song.playSound("ho_ho_ho", false); })
+  })
+  loadSVG("christmas-card", wrapper, (elt)=>{
+    target.includes("lulu") && songs.kdo(elt);
+  })
   loadSVG("fireplace", wrapperBack, function(elt){
     elt.select(".eye").transform();
   })
@@ -249,8 +330,8 @@ document.body.onload = loadSound
     elt.click(function(){ songs["noel"].trigger(2) })
   })
   loadSVG("gift-bag", wrapper, function(elt){
-    elt.addClass("pointer")
-    shadowOnOver(elt)
-    elt.click(function(){ Song.playSound("ho_ho_ho", false); })
+    target.includes("agnes") && songs.kdo(elt);
   })
-  loadSVG("gift-1", wrapper)
+  loadSVG("gift-1", wrapper, (elt)=>{
+    target.includes("marianne") && songs.kdo(elt);
+  })

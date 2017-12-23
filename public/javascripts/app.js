@@ -2,21 +2,53 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// $("h1").lettering();
 
 //https://stackoverflow.com/questions/4617638/detect-ipad-users-using-jquery
 var isIpad = navigator.userAgent.match(/iPad/i) != null;
+var target = location.hash;
+console.log("target=", target);
+var inputs = document.getElementsByTagName("input");
+Array.prototype.forEach.call(inputs, function (inp) {
+  inp.addEventListener("input", function () {
+    console.log("change", inp.value);
+    var code = Array.prototype.reduce.call(inputs, function (a, b) {
+      return a + b.value;
+    }, "");
+    console.log("code", code);
+    var targetCode = target.includes("lulu") ? "5P8C9TJC" : target.includes("marianne") ? "HOHOHOHO" : /* agnes */"HISTOIRE";
+    if (code.toLowerCase() == targetCode.toLowerCase()) {
+      document.getElementById("overlay").className += " out";
+    }
+  });
+});
 
-var backgroundPlayer;
+// document.getElementById("entrer").addEventListener("click", ()=>{
+//   console.log("entrer")
+//   document.getElementById("overlay").className += " out";
+// })
+
+var backgroundPlayer = undefined,
+    assetsLoaded = false,
+    assetsCount = /* svg */16 + /* sounds */13,
+    assetsCounter = 0;
+var newAssetLoaded = function newAssetLoaded() {
+  return assetsLoaded = ++assetsCounter == assetsCount;
+};
 
 var Song = function () {
-  function Song(chain) {
+  function Song(chain, kdo) {
     _classCallCheck(this, Song);
 
     this.length = chain.length;
     this.complete = false;
     this.ids = chain;
     this.last = undefined;
+    this.kdo = kdo;
   }
 
   _createClass(Song, [{
@@ -24,10 +56,26 @@ var Song = function () {
     value: function onSuccess(samplePlayer) {
       this.complete = true;
       console.log("COMPLETE");
-      // function(){ window.open("http://localhost:3000/cadeau", "_self") }
-      samplePlayer.on("complete", function () {
-        document.getElementById("kdo").click();
-      });
+
+      // samplePlayer.on("complete", function(){
+      //   document.getElementById("kdo").click()
+      // })
+      this.kdo.node.style.zIndex = 99;
+      if (target.includes("lulu")) {
+        this.kdo.animate({
+          transform: "t0,-400s25,25,0,0"
+        }, 5000);
+      }
+      if (target.includes("marianne")) {
+        this.kdo.animate({
+          transform: "t-250,-500s25,25,0,0"
+        }, 5000);
+      }
+      if (target.includes("agnes")) {
+        this.kdo.animate({
+          transform: "t800,-1300s25,25,0,0"
+        }, 5000);
+      }
     }
   }, {
     key: "reset",
@@ -35,6 +83,7 @@ var Song = function () {
       this.complete = false;
       this.last = undefined;
       document.getElementById("progress").style.width = 0;
+      this.kdo && this.kdo.attr({ transform: "t0,0s1,1,0,0" });
     }
   }, {
     key: "trigger",
@@ -42,7 +91,7 @@ var Song = function () {
       displayMusic();
       if ("number" == typeof soundID) soundID = this.ids[soundID];
 
-      Song.playSound(soundID);
+      var samplePlayer = Song.playSound(soundID);
 
       if (this.complete) return;
       var i = this.ids.indexOf(soundID);
@@ -67,6 +116,7 @@ var Song = function () {
     value: function playSound(soundID) {
       var interrupt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
+      if (!backgroundPlayer) return;
       if (interrupt) backgroundPlayer.volume = 0;
       var samplePlayer = createjs.Sound.play(soundID);
       samplePlayer.on("complete", function () {
@@ -74,6 +124,7 @@ var Song = function () {
           backgroundPlayer.volume = 0.05;
         });
       }, 500);
+      return samplePlayer;
     }
   }]);
 
@@ -83,20 +134,27 @@ var Song = function () {
 var songs = {
   "ppn": new Song(["ppn_final_0", "ppn_final_1", "ppn_final_2", "ppn_final_3", "ppn_final_4"]),
   "noel": new Song(["noel_0", "noel_1", "noel_2", "noel_3"]),
+  "santons": new Song(["pasto_0", "pasto_1", "pasto_2"]),
   soundIDs: function soundIDs() {
-    return this.noel.ids.concat(this.ppn.ids);
+    return [].concat(_toConsumableArray(this.noel.ids), _toConsumableArray(this.ppn.ids), _toConsumableArray(this.santons.ids));
   },
   reset: function reset() {
     this.noel.reset();
     this.ppn.reset();
+    this.santons.reset();
+  },
+  kdo: function kdo(elt) {
+    console.log("kdo", elt);
+    this.noel.kdo = this.ppn.kdo = this.santons.kdo = elt;
   }
 };
 document.getElementById("reset").addEventListener("click", function () {
   songs.reset();
 });
-var jingleBells = "jingleBells";
+var jingleBells = "jingle_bells";
 var basePath = "./sounds/";
 createjs.Sound.on("fileload", function (event) {
+  newAssetLoaded();
   // A sound has been preloaded.
   console.log("Preloaded:", event.id, event.src);
   if (event.src.includes("jingle")) {
@@ -139,6 +197,7 @@ var loadSVG = function loadSVG(id, wp, cb) {
     wp && wp.append(fragment);
     objects[id] = wp ? wp.select('#' + id) : fragment;
     cb && cb(objects[id], id);
+    newAssetLoaded();
   });
 };
 
@@ -228,8 +287,38 @@ loadSVG("star", wrapper, function (elt) {
     });
   });
 });
-loadSVG("train", wrapper);
-loadSVG("christmas-card", wrapper);
+
+loadSVG("angel", wrapper, function (elt) {
+  elt.addClass("pointer");
+  shadowOnOver(elt);
+  elt.click(function () {
+    songs["santons"].trigger(0);
+  });
+});
+loadSVG("drum", wrapper, function (elt) {
+  elt.addClass("pointer");
+  shadowOnOver(elt);
+  elt.click(function () {
+    songs["santons"].trigger(2);
+  });
+});
+loadSVG("trumpet", wrapper, function (elt) {
+  elt.addClass("pointer");
+  shadowOnOver(elt);
+  elt.click(function () {
+    songs["santons"].trigger(1);
+  });
+});
+loadSVG("train", wrapper, function (elt) {
+  elt.addClass("pointer");
+  shadowOnOver(elt);
+  elt.click(function () {
+    Song.playSound("ho_ho_ho", false);
+  });
+});
+loadSVG("christmas-card", wrapper, function (elt) {
+  target.includes("lulu") && songs.kdo(elt);
+});
 loadSVG("fireplace", wrapperBack, function (elt) {
   elt.select(".eye").transform();
 });
@@ -293,10 +382,8 @@ loadSVG("gingerbread", wrapperBack, function (elt) {
   });
 });
 loadSVG("gift-bag", wrapper, function (elt) {
-  elt.addClass("pointer");
-  shadowOnOver(elt);
-  elt.click(function () {
-    Song.playSound("ho_ho_ho", false);
-  });
+  target.includes("agnes") && songs.kdo(elt);
 });
-loadSVG("gift-1", wrapper);
+loadSVG("gift-1", wrapper, function (elt) {
+  target.includes("marianne") && songs.kdo(elt);
+});

@@ -8,11 +8,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./stylesheets/style.css">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/papercss@1.3.1/dist/paper.min.css">
+    <script
+			  src="https://code.jquery.com/jquery-3.2.1.min.js"
+			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+			  crossorigin="anonymous"></script>
+    <script src="./javascripts/jquery.lettering-0.6.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/SoundJS/0.6.0/soundjs.min.js"></script>
   </head>
   <body>
+    <div id="overlay">
+      <img src="./images/svg/santa.svg" />
+      <h1>PERE NOEL DU 77</h1>
+      <div class="row">
+        <div class="col-fill col"></div>
+        <div class="col sm-2">
+          <div class="form-group">
+            <!-- <label for="paperInputs2">Block Level</label> -->
+            <input class="input-block" type="text" id="paperInputs1" maxlength="2">
+          </div>
+        </div>
+        <div class="col sm-2">
+          <div class="form-group">
+            <!-- <label for="paperInputs3">Block Level</label> -->
+            <input class="input-block" type="text" id="paperInputs2" maxlength="2">
+          </div>
+        </div>
+        <div class="col sm-2">
+          <div class="form-group">
+            <!-- <label for="paperInputs3">Block Level</label> -->
+            <input class="input-block" type="text" id="paperInputs3" maxlength="2">
+          </div>
+        </div>
+        <div class="col sm-2">
+          <div class="form-group">
+            <!-- <label for="paperInputs3">Block Level</label> -->
+            <input class="input-block" type="text" id="paperInputs4" maxlength="2">
+          </div>
+        </div>
+        <div class="col-fill col"></div>
+      </div>
+      <div class="row">
+        <!-- <div class="col-fill col"></div>
+        <div class="col-6 col">
+          <button id="entrer" class="btn-block disabled">Entrer</button>
+        </div>
+        <div class="col-fill col"></div> -->
+      </div>
+    </div><!-- #overlay -->
     <div id="progress"></div>
-    <a id="reset" class="paper-btn margin">Recommencer</a>
+    <a id="reset" class="paper-btn margin gv-hide">Recommencer</a>
     <a id="kdo" href="#modal-1">KDO</a>
     <div class="modal row flex-spaces" id="modal-1">
       <div class="modal-body">
@@ -20,6 +64,7 @@
         <h4 class="modal-title"> 🔔 Bien joué! 🔔</h4>
         <h5 class="modal-subtitle">🎄 Mais ce n'est pas fini !</h5>
         <p class="modal-text">Voici l'indice qui te permettra de découvrir le 🎁 que t'as préparé le 🎅: </p>
+        <img src="./images/indice.png"/>
         <a href="#next">
           <button>Nice!</button>
         </a>

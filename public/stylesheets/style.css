@@ -1,3 +1,86 @@
+@font-face {
+    /*https://stackoverflow.com/questions/107936/how-to-add-some-non-standard-font-to-a-website*/
+    /*https://www.dafont.com/theme.php?cat=804*/
+    font-family: "Christmas Font";
+    src: url(../fonts/christmas.woff);
+}
+
+input {  }
+
+#overlay {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ba4343;
+  z-index: 101;
+  transition: transform 5s;
+}
+
+#overlay.out {
+  transform: translateY(-100%);
+}
+
+#overlay, #overlay h1 { font-family: "Christmas Font", Verdana, Tahoma; }
+
+#overlay img {
+  width: 15%;
+  margin: auto;
+  border: none;
+  margin-top: 150px;
+  /*background-color: #527148;*/
+}
+
+/*https://css-tricks.com/set-text-on-a-circle/*/
+
+#overlay h1 {
+  /*color: yellow;
+  top: 25px;
+  margin: auto;
+  left: calc(50% - 25px);*/
+  margin: 0;
+  display: block;
+  margin-left: 10%;
+  color: white;
+  font-size: 10vw;
+}
+
+#overlay input, #overlay button {
+  background-color: white !important;
+}
+
+@media screen and (max-width: 1024px) {
+
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+#overlay h1 span {
+  position: absolute;
+  transform-origin: bottom center;
+  height: 300px;
+}
+
+.char1 { transform: rotate(24deg); }
+.char2 { transform: rotate(48deg); }
+.char3 { transform: rotate(72deg); }
+.char4 { transform: rotate(96deg); }
+.char5 { transform: rotate(120deg); }
+.char6 { transform: rotate(144deg); }
+.char7 { transform: rotate(168deg); }
+.char8 { transform: rotate(192deg); }
+.char9 { transform: rotate(216deg); }
+.char10 { transform: rotate(240deg); }
+.char11 { transform: rotate(264deg); }
+.char12 { transform: rotate(288deg); }
+.char13 { transform: rotate(302deg); }
+.char14 { transform: rotate(328deg); }
+.char15 { transform: rotate(352deg); }
+
 body {
   overflow: hidden;
   margin: 0;
@@ -5,7 +88,7 @@ body {
 
 * { outline: none; }
 
-.gv-hide { display: none; }
+.gv-hide { display: none !important; }
 .music-note {
   position: fixed;
   width: 8%;
@@ -117,7 +200,7 @@ body {
   width: 7%;
   bottom: -20px;
   left: 50%;
-  z-index: 1;
+  /*z-index: 99;*/
 }
 
 #train {
@@ -146,6 +229,7 @@ bottom: -80px;
   left: 25%;
   bottom: 0;
   max-width: 200px;
+  /*z-index: 99;*/
 }
 
 #wreath {
@@ -161,6 +245,39 @@ bottom: -80px;
   bottom: -20px;
   width: 25%;
   max-width: 300px;
+}
+
+#trumpet {
+  right: 50px;
+bottom: 100px;
+}
+
+#drum {
+  left: 50px;
+bottom: 50px;
+}
+
+#angel{
+  top: -100px;
+  left: 200px;
+  animation: mymove 3s infinite linear;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes mymove {
+  0% {left: 200px;}
+  25% {left: 220px;}
+  50% {left: 200px;}
+  75% {left: 180px;}
+  100% {left: 200px;}
+}
+
+@keyframes mymove {
+  0% {left: 200px;}
+  25% {left: 220px;}
+  50% {left: 200px;}
+  75% {left: 180px;}
+  100% {left: 200px;}
 }
 
 @media screen and (max-width: 1024px) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" id="drum" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <g>
 	<path style="fill:#AA715F;" d="M36.652,57.892l139.355,73.538c-0.002,10.713,5.548,21.134,15.493,26.876
@@ -39,7 +39,7 @@
 <path style="opacity:0.1;enable-background:new    ;" d="M39.111,213.291v-33.774c0-9.418,7.635-17.053,17.053-17.053H17.053
 	C7.635,162.464,0,170.098,0,179.517v33.774c0,9.418,7.635,17.053,17.053,17.053h39.111
 	C46.746,230.344,39.111,222.709,39.111,213.291z"/>
-<polygon style="opacity:0.1;enable-background:new    ;" points="33.32,230.344 33.32,426.692 82.548,426.692 82.548,270.668 
+<polygon style="opacity:0.1;enable-background:new    ;" points="33.32,230.344 33.32,426.692 82.548,426.692 82.548,270.668
 	478.68,270.668 478.68,230.344 "/>
 <g>
 	<path style="fill:#485458;" d="M178.76,309.194c-4.142,0-7.5-3.357-7.5-7.5v-12.821c0-4.142,3.358-7.5,7.5-7.5s7.5,3.358,7.5,7.5
