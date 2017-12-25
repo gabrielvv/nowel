@@ -10,7 +10,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 //https://stackoverflow.com/questions/4617638/detect-ipad-users-using-jquery
 var isIpad = navigator.userAgent.match(/iPad/i) != null;
-var target = location.hash;
+
+var hideKeyboard = function hideKeyboard() {
+  document.activeElement.blur();
+  $("input").blur();
+};
+
+var target = location.href.split("/").pop();
 console.log("target=", target);
 var inputs = document.getElementsByTagName("input");
 Array.prototype.forEach.call(inputs, function (inp) {
@@ -22,7 +28,8 @@ Array.prototype.forEach.call(inputs, function (inp) {
     console.log("code", code);
     var targetCode = target.includes("lulu") ? "5P8C9TJC" : target.includes("marianne") ? "HOHOHOHO" : /* agnes */"HISTOIRE";
     if (code.toLowerCase() == targetCode.toLowerCase()) {
-      document.getElementById("overlay").className += " out";
+      document.getElementById("overlay").className += "out";
+      hideKeyboard();
     }
   });
 });
@@ -56,25 +63,44 @@ var Song = function () {
     value: function onSuccess(samplePlayer) {
       this.complete = true;
       console.log("COMPLETE");
-
       // samplePlayer.on("complete", function(){
       //   document.getElementById("kdo").click()
       // })
-      this.kdo.node.style.zIndex = 99;
-      if (target.includes("lulu")) {
-        this.kdo.animate({
-          transform: "t0,-400s25,25,0,0"
-        }, 5000);
-      }
-      if (target.includes("marianne")) {
-        this.kdo.animate({
-          transform: "t-250,-500s25,25,0,0"
-        }, 5000);
-      }
-      if (target.includes("agnes")) {
-        this.kdo.animate({
-          transform: "t800,-1300s25,25,0,0"
-        }, 5000);
+
+      if (this.kdo) {
+        /**
+        * /!\ Le scaling svg ne marche pas sur Safari
+        *
+        *
+        */
+
+        this.kdo.node.style.zIndex = 99;
+        var W = $(this.kdo.node).width();
+        $(this.kdo.node).css({ width: W * 25 });
+        $(this.kdo.node).addClass("scale-up");
+        if (target.includes("lulu")) {
+          // this.kdo.animate({
+          //   transform: "t0,-400s25,25,0,0"
+          // }, 5000);
+          // this.kdo.animate({
+          //   transform: "t-900,500s1,1,0,0"
+          // }, 5000);
+          // $(this.kdo.node).css({bottom: "-500px", left: "-45%"})
+        } else if (target.includes("marianne")) {
+          // this.kdo.animate({
+          //   transform: "t-2100,1300s1,1,0,0"
+          // }, 5000);
+          // this.kdo.animate({
+          //   transform: "t-250,-500s25,25,0,0"
+          // }, 5000);
+        } else {
+            // this.kdo.animate({
+            //   transform: "t2700,500s1,1,0,0"
+            // }, 5000);
+            // this.kdo.animate({
+            //   transform: "t800,-1300s25,25,0,0"
+            // }, 5000);
+          }
       }
     }
   }, {
@@ -252,12 +278,18 @@ function displayMusic() {
   q.removeClass("gv-hide");
   // const tx = (Math.random()*50+150)*(Math.random() > 0.5 ? 1 : -1);
   // const ty = (Math.random()*50+150)*(Math.random() > 0.5 ? 1 : -1);
-  var tx = -80;
-  var ty = -80;
+  // const tx = -80;
+  // const ty = -80;
+  var tx = 0;
+  var ty = 0;
+  $(q.node).css({ width: "1%" });
   q.animate({
-    transform: "t" + tx + "," + ty + "s0,0,0,0"
+    // Sur Safari le scaling svg ne marche pas
+    transform: "t" + tx + "," + ty + "s1,1,0,0"
+    // transform: `t${tx},${ty}s0,0,0,0`,
   }, 1000, mina.linear, function () {
     q.addClass("gv-hide");
+    $(q.node).css({ width: "" });
     q.attr({
       transform: "t0,0s1,1,0,0"
     });

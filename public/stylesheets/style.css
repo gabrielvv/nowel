@@ -88,12 +88,15 @@ body {
 
 * { outline: none; }
 
-.gv-hide { display: none !important; }
+.gv-hide {
+  visibility: hidden;
+}
 .music-note {
   position: fixed;
   width: 8%;
   left: 150px;
   top: 100px;
+  transition: width 1s;
 }
 
 #quaver {
@@ -200,7 +203,12 @@ body {
   width: 7%;
   bottom: -20px;
   left: 50%;
-  /*z-index: 99;*/
+}
+
+#christmas-card.scale-up {
+  width: calc(7% * 25);
+  bottom: -500px;
+  left: -45%;
 }
 
 #train {
@@ -214,29 +222,44 @@ bottom: -80px;
   left: 49%;
   z-index: 1;
   bottom: 100%;
-  max-width: 100px;
+  /*max-width: 100px;*/
+}
+
+.svg-scale {
+  transition: width 5s linear, bottom 5s linear, top 5s linear, left 5s linear, right 5s linear;
 }
 
 #gift-bag {
   width: 15%;
   right: 18%;
   bottom: 0;
-  max-width: 200px;
+  /*max-width: 200px;*/
+}
+
+#gift-bag.scale-up {
+  width: calc(15% * 25);
+  bottom: -500px;
+  right: -250%;
 }
 
 #gift-1 {
   width: 15%;
   left: 25%;
   bottom: 0;
-  max-width: 200px;
-  /*z-index: 99;*/
+  /*max-width: 200px;*/
+}
+
+#gift-1.scale-up {
+  width: calc(15% * 25);
+  bottom: -1000px;
+  left: -200%;
 }
 
 #wreath {
   width: 8%;
   right: 23%;
   bottom: 300px;
-  max-width: 100px;
+  /*max-width: 100px;*/
   z-index: 2;
 }
 

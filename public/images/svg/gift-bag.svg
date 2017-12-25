@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="gift-bag" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" id="gift-bag" class="svg-scale" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <path style="fill:#61C6AD;" d="M331.687,39.406L331.687,39.406c-23.127,6.535-47.613,6.535-70.74,0l0,0
 	c-13.132-3.711-25.114,8.685-20.959,21.684l22.986,71.904h66.685l22.986-71.904C356.801,48.091,344.819,35.695,331.687,39.406z"/>
@@ -91,9 +91,7 @@
 <g>
 </g>
 <g>
-	<text font-size="5" y="370" x="110">
-		Comme tu as &eacute;t&eacute; bien sage,
-	</text>
+	<text font-size="5" y="370" x="110">Comme tu as &eacute;t&eacute; bien sage,</text>
 	<text font-size="5" x="100" y="380">le P&egrave;re No&euml;l t'offre un abonnement</text>
 	<text font-size="5" x="90" y="390">au Monde Diplomatique! (chanceuse)</text>
 </g>

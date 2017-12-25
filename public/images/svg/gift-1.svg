@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="gift-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" id="gift-1" class="svg-scale" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <path style="fill:#E86478;" d="M450.357,456.889l-60.569-383.93c-2.603-16.497-16.821-28.648-33.522-28.648H94.513
 	c-16.701,0-30.919,12.151-33.522,28.648L0.422,456.889c-3.249,20.597,12.67,39.225,33.522,39.225h382.891
@@ -180,9 +180,11 @@
 </g>
 <g>
 </g>
+<g>
 	<text x="300" y="300" font-size="5">
 		Comme tu as &eacute;t&eacute; bien sage,
 	</text>
 	<text x="310" y="310" font-size="5">le P&egrave;re No&euml;l t'offre 2 places</text>
 	<text x="320" y="320" font-size="5">pour le concert de ton choix</text>
+</g>
 </svg>

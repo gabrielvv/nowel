@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="christmas-card" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" id="christmas-card" class="svg-scale" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <path style="fill:#E86478;" d="M375.278,432.66L94.297,490.576V58.598l281.73-58.071c15.614-3.218,30.249,8.707,30.249,24.65V394.62
 	C406.277,413.048,393.327,428.939,375.278,432.66z"/>
@@ -100,7 +100,9 @@
 </g>
 <g>
 </g>
+<g>
 	<text fill="red" x="210" y="200" font-size="6">Comme tu as &eacute;t&eacute; bien sage,</text>
 	<text fill="red" x="210" y="270" font-size="6">le P&egrave;re No&euml;l t'offre une sortie pour 2 au choix</text>
 	<text fill="red" x="210" y="350" font-size="6">(baby-sitting inclus)</text>
+</g>
 </svg>
